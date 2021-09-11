@@ -1,3 +1,5 @@
+use shuntyard::ast::AstNode;
+
 fn shuntyard(input: &str) -> String {
     let mut stack: Vec<char> = Vec::new();
     let mut output = String::new();
@@ -21,4 +23,5 @@ fn shuntyard(input: &str) -> String {
 fn main() {
     println!("{}", shuntyard("1+2-3"));
     println!("Hello, world!");
+    println!("{:?}", AstNode::Empty);
 }

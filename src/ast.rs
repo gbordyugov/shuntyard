@@ -1,6 +1,7 @@
 use std::rc::Rc;
 
-enum AstNode {
+#[derive(Debug)]
+pub enum AstNode {
     Empty,
     Char(char),
     Concat {
@@ -11,24 +12,6 @@ enum AstNode {
         left: Rc<AstNode>,
         right: Rc<AstNode>,
     },
-}
-
-impl AstNode {
-    pub fn empty() -> Self {
-        AstNode::Empty
-    }
-
-    pub fn char(c: char) -> Self {
-        AstNode::Char(c)
-    }
-
-    pub fn concat(left: Rc<AstNode>, right: Rc<AstNode>) -> Self {
-        AstNode::Concat { left, right }
-    }
-
-    pub fn alter(left: Rc<AstNode>, right: Rc<AstNode>) -> Self {
-        AstNode::Alter { left, right }
-    }
 }
 
 #[cfg(test)]
