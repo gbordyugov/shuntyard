@@ -1,6 +1,7 @@
 use std::rc::Rc;
 
 enum AstNode {
+    Empty,
     Char(char),
     Concat {
         left: Rc<AstNode>,
@@ -13,6 +14,10 @@ enum AstNode {
 }
 
 impl AstNode {
+    pub fn empty() -> Self {
+        AstNode::Empty
+    }
+
     pub fn char(c: char) -> Self {
         AstNode::Char(c)
     }
@@ -30,6 +35,11 @@ impl AstNode {
 mod tests {
     use super::AstNode;
     use super::Rc;
+
+    #[test]
+    fn empty_can_be_created() {
+        let _e = AstNode::Empty;
+    }
 
     #[test]
     fn char_can_be_created() {
