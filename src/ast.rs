@@ -21,14 +21,14 @@ impl AstNode {
     pub fn char(c: char) -> Self {
         AstNode::Char(c)
     }
-    /*
-    pub fn concat(left: &AstNode, right: &AstNode) -> Self {
-        AstNode::Concat {
-            left: left,
-            right: right,
-        };
+
+    pub fn concat(left: Rc<AstNode>, right: Rc<AstNode>) -> Self {
+        AstNode::Concat { left, right }
     }
-    */
+
+    pub fn alter(left: Rc<AstNode>, right: Rc<AstNode>) -> Self {
+        AstNode::Alter { left, right }
+    }
 }
 
 #[cfg(test)]
@@ -49,16 +49,16 @@ mod tests {
     #[test]
     fn concat_can_be_created() {
         let _c = AstNode::Concat {
-            left: Rc::new(AstNode::Char('a')),
-            right: Rc::new(AstNode::Char('b')),
+            left: Rc::new(AstNode::Char('l')),
+            right: Rc::new(AstNode::Char('r')),
         };
     }
 
     #[test]
     fn alter_can_be_created() {
         let _a = AstNode::Alter {
-            left: Rc::new(AstNode::Char('a')),
-            right: Rc::new(AstNode::Char('b')),
+            left: Rc::new(AstNode::Char('l')),
+            right: Rc::new(AstNode::Char('r')),
         };
     }
 }
