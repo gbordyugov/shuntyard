@@ -1,4 +1,10 @@
 use std::rc::Rc;
+use std::collections::HashMap;
+
+/**
+ * "abcd|efgh" => Alter("abcd", "efgh")
+ * "abc(d|e)fgh" -> Concat("abc", Concat(Alter("d", "e"), "fgh"))
+ */
 
 #[derive(Debug)]
 pub enum AstNode {
@@ -12,6 +18,14 @@ pub enum AstNode {
         left: Rc<AstNode>,
         right: Rc<AstNode>,
     },
+}
+
+impl AstNode {
+    fn from_str(s: &str) -> Self {
+        let mut precedence: HashMap<char, u8> = HashMap::new();
+        precedence.insert('|', 1);
+        unimplemented!()
+    }
 }
 
 #[cfg(test)]
