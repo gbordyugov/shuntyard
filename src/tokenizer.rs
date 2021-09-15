@@ -2,9 +2,9 @@
 pub enum Token {
     Char(char),
     Dot,
+    Alter,
     LeftParen,
     RightParen,
-    Alter,
 }
 
 pub fn tokenize(s: &str) -> Vec<Token> {
@@ -50,15 +50,41 @@ mod tests {
         let s = "";
         let got = tokenize(s);
         let expected: Vec<Token> = Vec::new();
+
         assert_eq!(got.len(), expected.len());
+        // assert_eq!(got, expected);
     }
 
     #[test]
-    fn singleton_string_is_properly_tokenized() {
+    fn singleton_is_properly_tokenized() {
         let s = "a";
         let got = tokenize(s);
         let mut expected: Vec<Token> = Vec::new();
         expected.push(Token::Char('a'));
+
+        assert_eq!(got.len(), expected.len());
+    }
+
+    #[test]
+    fn doublet_with_dot_is_properly_tokenized() {
+        let s = "ab";
+        let got = tokenize(s);
+        let mut expected: Vec<Token> = Vec::new();
+        expected.push(Token::Char('a'));
+        expected.push(Token::Dot);
+        expected.push(Token::Char('b'));
+
+        assert_eq!(got.len(), expected.len());
+    }
+
+    #[test]
+    fn doublet_with_alter_is_properly_tokenized() {
+        let s = "a|b";
+        let got = tokenize(s);
+        let mut expected: Vec<Token> = Vec::new();
+        expected.push(Token::Char('a'));
+        expected.push(Token::Alter);
+        expected.push(Token::Char('b'));
 
         assert_eq!(got.len(), expected.len());
     }
