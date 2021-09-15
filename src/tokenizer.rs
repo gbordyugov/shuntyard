@@ -1,4 +1,4 @@
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Token {
     Char(char),
     Dot,
@@ -49,43 +49,65 @@ mod tests {
     fn empty_string_is_properly_tokenized() {
         let s = "";
         let got = tokenize(s);
-        let expected: Vec<Token> = Vec::new();
+        let expected: Vec<Token> = vec![];
 
-        assert_eq!(got.len(), expected.len());
-        // assert_eq!(got, expected);
+        assert_eq!(got, expected);
     }
 
     #[test]
     fn singleton_is_properly_tokenized() {
         let s = "a";
         let got = tokenize(s);
-        let mut expected: Vec<Token> = Vec::new();
-        expected.push(Token::Char('a'));
+        let expected = vec![Token::Char('a')];
 
-        assert_eq!(got.len(), expected.len());
+        assert_eq!(got, expected);
     }
 
     #[test]
     fn doublet_with_dot_is_properly_tokenized() {
         let s = "ab";
         let got = tokenize(s);
-        let mut expected: Vec<Token> = Vec::new();
-        expected.push(Token::Char('a'));
-        expected.push(Token::Dot);
-        expected.push(Token::Char('b'));
+        let expected = vec![Token::Char('a'), Token::Dot, Token::Char('b')];
 
-        assert_eq!(got.len(), expected.len());
+        assert_eq!(got, expected);
+    }
+
+    #[test]
+    fn triplet_with_dot_is_properly_tokenized() {
+        let s = "abc";
+        let got = tokenize(s);
+        let expected = vec![
+            Token::Char('a'),
+            Token::Dot,
+            Token::Char('b'),
+            Token::Dot,
+            Token::Char('c'),
+        ];
+
+        assert_eq!(got, expected);
     }
 
     #[test]
     fn doublet_with_alter_is_properly_tokenized() {
         let s = "a|b";
         let got = tokenize(s);
-        let mut expected: Vec<Token> = Vec::new();
-        expected.push(Token::Char('a'));
-        expected.push(Token::Alter);
-        expected.push(Token::Char('b'));
+        let expected = vec![Token::Char('a'), Token::Alter, Token::Char('b')];
 
-        assert_eq!(got.len(), expected.len());
+        assert_eq!(got, expected);
+    }
+
+    #[test]
+    fn triplet_with_alter_is_properly_tokenized() {
+        let s = "a|b|c";
+        let got = tokenize(s);
+        let expected = vec![
+            Token::Char('a'),
+            Token::Alter,
+            Token::Char('b'),
+            Token::Alter,
+            Token::Char('c'),
+        ];
+
+        assert_eq!(got, expected);
     }
 }
