@@ -27,8 +27,12 @@ pub fn tokenize(s: &str) -> Vec<Token> {
     }
 
     for i in 0..raw_tokens.len() - 1 {
-        output.push(raw_tokens[i]);
-        if let Token::Char(_) = raw_tokens[i + 1] {
+        let this = raw_tokens[i];
+        let next = raw_tokens[i + 1];
+
+        output.push(this);
+
+        if let (Token::Char(_), Token::Char(_)) = (this, next) {
             output.push(Token::Dot);
         }
     }
