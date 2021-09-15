@@ -24,4 +24,8 @@ fn main() {
     println!("{}", shuntyard("1+2-3"));
     println!("Hello, world!");
     println!("{:?}", AstNode::Empty);
+
+    for i in 0..5 {
+        println!("{:?}", i)
+    }
 }
