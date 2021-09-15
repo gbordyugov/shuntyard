@@ -10,7 +10,7 @@ pub enum Token {
 pub fn tokenize(s: &str) -> Vec<Token> {
     let mut output: Vec<Token> = Vec::new();
 
-    if s.len() < 1 {
+    if s.is_empty() {
         return output;
     }
 
