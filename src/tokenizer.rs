@@ -97,12 +97,27 @@ mod tests {
     }
 
     #[test]
-    fn triplet_with_alter_is_properly_tokenized() {
+    fn triplet_with_two_alters_is_properly_tokenized() {
         let s = "a|b|c";
         let got = tokenize(s);
         let expected = vec![
             Token::Char('a'),
             Token::Alter,
+            Token::Char('b'),
+            Token::Alter,
+            Token::Char('c'),
+        ];
+
+        assert_eq!(got, expected);
+    }
+
+    #[test]
+    fn triplet_with_one_alter_is_properly_tokenized() {
+        let s = "ab|c";
+        let got = tokenize(s);
+        let expected = vec![
+            Token::Char('a'),
+            Token::Dot,
             Token::Char('b'),
             Token::Alter,
             Token::Char('c'),
