@@ -26,15 +26,16 @@ pub fn tokenize(s: &str) -> Vec<Token> {
         raw_tokens.push(t)
     }
 
+    output.push(raw_tokens[0]);
+
     for i in 0..raw_tokens.len() - 1 {
         let this = raw_tokens[i];
         let next = raw_tokens[i + 1];
 
-        output.push(this);
-
         if let (Token::Char(_), Token::Char(_)) = (this, next) {
             output.push(Token::Dot);
         }
+        output.push(next);
     }
     output
 }
@@ -49,6 +50,16 @@ mod tests {
         let s = "";
         let got = tokenize(s);
         let expected: Vec<Token> = Vec::new();
+        assert_eq!(got.len(), expected.len());
+    }
+
+    #[test]
+    fn singleton_string_is_properly_tokenized() {
+        let s = "a";
+        let got = tokenize(s);
+        let mut expected: Vec<Token> = Vec::new();
+        expected.push(Token::Char('a'));
+
         assert_eq!(got.len(), expected.len());
     }
 }
