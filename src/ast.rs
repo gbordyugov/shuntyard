@@ -1,5 +1,5 @@
+// use std::collections::HashMap;
 use std::rc::Rc;
-use std::collections::HashMap;
 
 /**
  * "abcd|efgh" => Alter("abcd", "efgh")
@@ -21,11 +21,13 @@ pub enum AstNode {
 }
 
 impl AstNode {
-    fn from_str(s: &str) -> Self {
-        let mut precedence: HashMap<char, u8> = HashMap::new();
-        precedence.insert('|', 1);
-        unimplemented!()
-    }
+    /*
+        fn from_str(s: &str) -> Self {
+            let mut precedence: HashMap<char, u8> = HashMap::new();
+            precedence.insert('|', 1);
+            unimplemented!()
+        }
+    */
 }
 
 #[cfg(test)]
