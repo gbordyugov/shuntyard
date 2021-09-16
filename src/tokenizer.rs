@@ -1,10 +1,15 @@
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub enum Token {
-    Char(char),
+pub enum Op {
     Dot,
     Alter,
     LeftParen,
     RightParen,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum Token {
+    Char(char),
+    Op(Op),
 }
 
 pub fn tokenize(s: &str) -> Vec<Token> {
@@ -18,9 +23,9 @@ pub fn tokenize(s: &str) -> Vec<Token> {
 
     for c in s.chars() {
         let t = match c {
-            '(' => Token::LeftParen,
-            ')' => Token::RightParen,
-            '|' => Token::Alter,
+            '(' => Token::Op(Op::LeftParen),
+            ')' => Token::Op(Op::RightParen),
+            '|' => Token::Op(Op::Alter),
             _ => Token::Char(c),
         };
         raw_tokens.push(t)
@@ -33,7 +38,7 @@ pub fn tokenize(s: &str) -> Vec<Token> {
         let next = raw_tokens[i + 1];
 
         if let (Token::Char(_), Token::Char(_)) = (this, next) {
-            output.push(Token::Dot);
+            output.push(Token::Op(Op::Dot));
         }
         output.push(next);
     }
@@ -43,6 +48,7 @@ pub fn tokenize(s: &str) -> Vec<Token> {
 #[cfg(test)]
 mod tests {
     use super::tokenize;
+    use super::Op;
     use super::Token;
 
     #[test]
@@ -67,7 +73,7 @@ mod tests {
     fn doublet_with_dot_is_properly_tokenized() {
         let s = "ab";
         let got = tokenize(s);
-        let expected = vec![Token::Char('a'), Token::Dot, Token::Char('b')];
+        let expected = vec![Token::Char('a'), Token::Op(Op::Dot), Token::Char('b')];
 
         assert_eq!(got, expected);
     }
@@ -78,9 +84,9 @@ mod tests {
         let got = tokenize(s);
         let expected = vec![
             Token::Char('a'),
-            Token::Dot,
+            Token::Op(Op::Dot),
             Token::Char('b'),
-            Token::Dot,
+            Token::Op(Op::Dot),
             Token::Char('c'),
         ];
 
@@ -91,7 +97,7 @@ mod tests {
     fn doublet_with_alter_is_properly_tokenized() {
         let s = "a|b";
         let got = tokenize(s);
-        let expected = vec![Token::Char('a'), Token::Alter, Token::Char('b')];
+        let expected = vec![Token::Char('a'), Token::Op(Op::Alter), Token::Char('b')];
 
         assert_eq!(got, expected);
     }
@@ -102,9 +108,9 @@ mod tests {
         let got = tokenize(s);
         let expected = vec![
             Token::Char('a'),
-            Token::Alter,
+            Token::Op(Op::Alter),
             Token::Char('b'),
-            Token::Alter,
+            Token::Op(Op::Alter),
             Token::Char('c'),
         ];
 
@@ -117,9 +123,9 @@ mod tests {
         let got = tokenize(s);
         let expected = vec![
             Token::Char('a'),
-            Token::Dot,
+            Token::Op(Op::Dot),
             Token::Char('b'),
-            Token::Alter,
+            Token::Op(Op::Alter),
             Token::Char('c'),
         ];
 
