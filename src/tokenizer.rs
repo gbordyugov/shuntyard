@@ -73,7 +73,7 @@ pub fn infix_to_rpn(tokens: Vec<Token>) -> Vec<Token> {
                     output.push(Token::Op(*op2));
                     oper_stack.pop();
                 }
-                oper_stack.push(*op1)
+                oper_stack.push(*op1);
             }
         }
     }

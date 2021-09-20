@@ -135,4 +135,46 @@ mod infix_to_rpn_tests {
         let got = infix_to_rpn(tokens);
         assert_eq!(got, expected);
     }
+
+    #[test]
+    fn can_convert_dot_and_alter_operations_1() {
+        let tokens: Vec<Token> = vec![
+            Token::Char('a'),
+            Token::Op(Op::Dot),
+            Token::Char('b'),
+            Token::Op(Op::Alter),
+            Token::Char('c'),
+        ];
+        let expected: Vec<Token> = vec![
+            Token::Char('a'),
+            Token::Char('b'),
+            Token::Op(Op::Dot),
+            Token::Char('c'),
+            Token::Op(Op::Alter),
+        ];
+
+        let got = infix_to_rpn(tokens);
+        assert_eq!(got, expected);
+    }
+
+    #[test]
+    fn can_convert_dot_and_alter_operations_2() {
+        let tokens: Vec<Token> = vec![
+            Token::Char('a'),
+            Token::Op(Op::Alter),
+            Token::Char('b'),
+            Token::Op(Op::Dot),
+            Token::Char('c'),
+        ];
+        let expected: Vec<Token> = vec![
+            Token::Char('a'),
+            Token::Char('b'),
+            Token::Char('c'),
+            Token::Op(Op::Dot),
+            Token::Op(Op::Alter),
+        ];
+
+        let got = infix_to_rpn(tokens);
+        assert_eq!(got, expected);
+    }
 }
