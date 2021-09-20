@@ -43,24 +43,24 @@ pub fn tokenize(s: &str) -> Vec<Token> {
         output.push(next);
     }
 
-   output
+    output
 }
 
 pub fn infix_to_rpn(tokens: Vec<Token>) -> Vec<Token> {
     let mut output: Vec<Token> = Vec::new();
-    let mut oper_stack: Vec<Token> = Vec::new();
+    let mut oper_stack: Vec<Op> = Vec::new();
 
-    let tokens_iter = tokens.iter();
+    let mut tokens_iter = tokens.iter();
 
     for token in tokens_iter {
         match token {
-            t @ Token::Char(_) => output.push(*t),
-            t @ Token::Op(_) => oper_stack.push(*t),
+            Token::Char(_) => output.push(*token),
+            Token::Op(op) => oper_stack.push(*op),
         }
     }
 
-    while let Some(t) = oper_stack.pop() {
-        output.push(t)
+    while let Some(op) = oper_stack.pop() {
+        output.push(Token::Op(op))
     }
 
     output
