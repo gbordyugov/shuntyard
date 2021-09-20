@@ -1,5 +1,5 @@
 // use std::collections::HashMap;
-use crate::tokenizer::{Op, Token};
+use crate::tokenizer::Token;
 use std::rc::Rc;
 
 #[derive(Debug)]
@@ -17,7 +17,7 @@ pub enum AstNode {
 }
 
 impl AstNode {
-    fn from_rpn_tokens(tokens: Vec<Token>) -> Self {
+    fn from_rpn_tokens(_tokens: Vec<Token>) -> Self {
         unimplemented!()
     }
 }

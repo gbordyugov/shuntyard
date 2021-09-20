@@ -60,7 +60,7 @@ pub fn infix_to_rpn(tokens: Vec<Token>) -> Vec<Token> {
     let mut output: Vec<Token> = Vec::new();
     let mut oper_stack: Vec<Op> = Vec::new();
 
-    let mut tokens_iter = tokens.iter();
+    let tokens_iter = tokens.iter();
 
     for token in tokens_iter {
         match token {
