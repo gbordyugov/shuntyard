@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod tests {
-    use shuntyard::tokenizer::{Op, Token, tokenize};
+    use shuntyard::tokenizer::{tokenize, Op, Token};
 
     #[test]
     fn empty_string_is_properly_tokenized() {
