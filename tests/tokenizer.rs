@@ -278,4 +278,37 @@ mod string_to_rpn_tests {
         let got = string_to_rpn(s);
         assert_eq!(got, expected);
     }
+
+    #[test]
+    fn long_test_case() {
+        let s = "abcd|efgh|1234";
+        let expected: Vec<Token> = vec![
+            Token::Char('a'),
+            Token::Char('b'),
+            Token::Char('c'),
+            Token::Char('d'),
+            Token::Op(Op::Dot),
+            Token::Op(Op::Dot),
+            Token::Op(Op::Dot),
+            Token::Char('e'),
+            Token::Char('f'),
+            Token::Char('g'),
+            Token::Char('h'),
+            Token::Op(Op::Dot),
+            Token::Op(Op::Dot),
+            Token::Op(Op::Dot),
+            Token::Char('1'),
+            Token::Char('2'),
+            Token::Char('3'),
+            Token::Char('4'),
+            Token::Op(Op::Dot),
+            Token::Op(Op::Dot),
+            Token::Op(Op::Dot),
+            Token::Op(Op::Alter),
+            Token::Op(Op::Alter),
+        ];
+
+        let got = string_to_rpn(s);
+        assert_eq!(got, expected);
+    }
 }
