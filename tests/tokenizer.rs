@@ -178,3 +178,104 @@ mod infix_to_rpn_tests {
         assert_eq!(got, expected);
     }
 }
+
+#[cfg(test)]
+mod string_to_rpn_tests {
+    use shuntyard::tokenizer::{string_to_rpn, Op, Token};
+
+    #[test]
+    fn can_convert_empty_string() {
+        let s = "";
+        let expected: Vec<Token> = vec![];
+
+        let got = string_to_rpn(s);
+        assert_eq!(got, expected);
+    }
+
+    #[test]
+    fn can_convert_singleton() {
+        let s = "a";
+        let expected: Vec<Token> = vec![Token::Char('a')];
+
+        let got = string_to_rpn(s);
+        assert_eq!(got, expected);
+    }
+
+    #[test]
+    fn can_convert_concatenation_of_two() {
+        let s = "ab";
+        let expected: Vec<Token> = vec![Token::Char('a'), Token::Char('b'), Token::Op(Op::Dot)];
+
+        let got = string_to_rpn(s);
+        assert_eq!(got, expected);
+    }
+
+    #[test]
+    fn can_convert_concatenation_of_three() {
+        let s = "abc";
+        let expected: Vec<Token> = vec![
+            Token::Char('a'),
+            Token::Char('b'),
+            Token::Char('c'),
+            Token::Op(Op::Dot),
+            Token::Op(Op::Dot),
+        ];
+
+        let got = string_to_rpn(s);
+        assert_eq!(got, expected);
+    }
+
+    #[test]
+    fn can_convert_alteration_of_two() {
+        let s = "a|b";
+        let expected: Vec<Token> = vec![Token::Char('a'), Token::Char('b'), Token::Op(Op::Alter)];
+
+        let got = string_to_rpn(s);
+        assert_eq!(got, expected);
+    }
+
+    #[test]
+    fn can_convert_alteration_of_three() {
+        let s = "a|b|c";
+        let expected: Vec<Token> = vec![
+            Token::Char('a'),
+            Token::Char('b'),
+            Token::Char('c'),
+            Token::Op(Op::Alter),
+            Token::Op(Op::Alter),
+        ];
+
+        let got = string_to_rpn(s);
+        assert_eq!(got, expected);
+    }
+
+    #[test]
+    fn can_convert_dot_and_alter_operations_1() {
+        let s = "a|bc";
+        let expected: Vec<Token> = vec![
+            Token::Char('a'),
+            Token::Char('b'),
+            Token::Char('c'),
+            Token::Op(Op::Dot),
+            Token::Op(Op::Alter),
+        ];
+
+        let got = string_to_rpn(s);
+        assert_eq!(got, expected);
+    }
+
+    #[test]
+    fn can_convert_dot_and_alter_operations_2() {
+        let s = "ab|c";
+        let expected: Vec<Token> = vec![
+            Token::Char('a'),
+            Token::Char('b'),
+            Token::Op(Op::Dot),
+            Token::Char('c'),
+            Token::Op(Op::Alter),
+        ];
+
+        let got = string_to_rpn(s);
+        assert_eq!(got, expected);
+    }
+}
