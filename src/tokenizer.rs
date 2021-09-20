@@ -1,9 +1,19 @@
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Op {
-    Dot,
     Alter,
+    Dot,
     LeftParen,
     RightParen,
+}
+
+impl Op {
+    fn prec(&self) -> i8 {
+        match self {
+            Op::Alter => 0,
+            Op::Dot => 1,
+            _ => unimplemented!(),
+        }
+    }
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -55,7 +65,16 @@ pub fn infix_to_rpn(tokens: Vec<Token>) -> Vec<Token> {
     for token in tokens_iter {
         match token {
             Token::Char(_) => output.push(*token),
-            Token::Op(op) => oper_stack.push(*op),
+            Token::Op(op1) => {
+                while let Some(op2) = oper_stack.last() {
+                    if op2.prec() <= op1.prec() {
+                        break;
+                    }
+                    output.push(Token::Op(*op2));
+                    oper_stack.pop();
+                }
+                oper_stack.push(*op1)
+            }
         }
     }
 
