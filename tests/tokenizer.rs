@@ -1,5 +1,5 @@
 #[cfg(test)]
-mod tests {
+mod tokenize_tests {
     use shuntyard::tokenizer::{tokenize, Op, Token};
 
     #[test]
@@ -80,6 +80,59 @@ mod tests {
             Token::Char('c'),
         ];
 
+        assert_eq!(got, expected);
+    }
+}
+
+#[cfg(test)]
+mod infix_to_rpn_tests {
+    use shuntyard::tokenizer::{infix_to_rpn, Op, Token};
+
+    #[test]
+    fn can_convert_empty_vect() {
+        let tokens: Vec<Token> = vec![];
+        let expected: Vec<Token> = vec![];
+
+        let got = infix_to_rpn(tokens);
+        assert_eq!(got, expected);
+    }
+
+    #[test]
+    fn can_convert_single_char() {
+        let tokens: Vec<Token> = vec![Token::Char('a')];
+        let expected: Vec<Token> = vec![Token::Char('a')];
+
+        let got = infix_to_rpn(tokens);
+        assert_eq!(got, expected);
+    }
+
+    #[test]
+    fn can_convert_single_dot_operation() {
+        let tokens: Vec<Token> = vec![Token::Char('a'), Token::Op(Op::Dot), Token::Char('b')];
+        let expected: Vec<Token> = vec![Token::Char('a'), Token::Char('b'), Token::Op(Op::Dot)];
+
+        let got = infix_to_rpn(tokens);
+        assert_eq!(got, expected);
+    }
+
+    #[test]
+    fn can_convert_two_dot_operations() {
+        let tokens: Vec<Token> = vec![
+            Token::Char('a'),
+            Token::Op(Op::Dot),
+            Token::Char('b'),
+            Token::Op(Op::Dot),
+            Token::Char('c'),
+        ];
+        let expected: Vec<Token> = vec![
+            Token::Char('a'),
+            Token::Char('b'),
+            Token::Char('c'),
+            Token::Op(Op::Dot),
+            Token::Op(Op::Dot),
+        ];
+
+        let got = infix_to_rpn(tokens);
         assert_eq!(got, expected);
     }
 }
